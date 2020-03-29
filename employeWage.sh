@@ -1,24 +1,26 @@
 #!/bin/bash -x
 
-WAGE_PER_HOURS=20
-FULL_DAY_HOURS=8
-PART_TIME_HOURS=4
-readNumber=$(( RANDOM%2 ))
-if [ $readNumber -eq 1 ]
-then
-	echo "Employee is Present"
-	case $(( RANDOM%2 )) in
-		1)
-			dailyWage=$(( WAGE_PER_HOURS*FULL_DAY_HOURS ))
-			;;
-		0)
-			dailyWage=$(( WAGE_PER_HOURS*PART_TIME_HOURS ))
-			;;
-	esac
+isPartTime=1;
+isFullTime=2;
+totalSalary=0;
+empRatePerHr=20;
+numWorkingDays=20;
 
-else
-		echo "Employee is Absent"
-		dailyWage=0
-fi
-echo "Employee Wage: "$dailyWage
+for (( day1=0; day<=$numWorkingDays; day++ ))
+do
+	empCheck=$(( RANDOM%3 ));
+		case $empCheck in
+			$isFullTime)
+				empHrs=8;
+				;;
+			$isPartTime)
+				empHrs=4;
+				;;
+			*)
+				empHrs=0
+				;;
+		esac
+		salary=$(( $empHrs*$empRatePerHr ))
+		totalSalary=$(( $totalSalary+$salary ))
+done
 
