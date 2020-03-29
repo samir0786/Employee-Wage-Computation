@@ -3,10 +3,13 @@
 WAGE_PER_HOUR=20
 DAY_PER_MONTH=20
 TOTAL_WORKING_HOURS=100
+
 countWorkingDay=0
 countTotalHour=0
 getHours=0
 totalWage=0
+
+declare -A perDay
 
 function getWorkingHours() {
 	case $(( RANDOM%2 )) in
@@ -28,11 +31,11 @@ do
 		countWorkingDay=$(( countWorkingDay+1 ))
 		getHours="$( getWorkingHours )"
 		countTotalHours=$(( countTotalHours+getHours ))
-		arr[$countWorkingDay]=$(( WAGE_PER_HOUR*getHours ))
-		totalWage=$(( totalWage+arr[$countWorkingDay] ))
+		perDay[Day" $countWorkingDay"]=$(( WAGE_PER_HOUR*getHours ))
+		echo "Day $countWorkingDay : ${perDay[Day" $countWorkingDay"]}"
+		totalWage=$(( totalWage+perDay[Day" $countWorkingDay"] ))
 	else
 		totalWage=$(( totalWage+0 ))
 	fi
 done
-echo "Employee Per Day Wage : " ${arr[@]}
 echo "Employee Total Wage : " $totalWage
