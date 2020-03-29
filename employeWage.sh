@@ -1,35 +1,35 @@
 #!/bin/bash -x
 
-Wage_Per_Hour=20
-Full_Time_Hour=8
-Part_Time_Hour=4
-Is_Full_Time=2
-Is_Part_Time=1
-Is_Absent=0
-Working_Hour=0
-Total_Working_Hours=0
-Total_Workiin_Days=0
-function getWorking_Hours(){
-case $1 in
-	$Is_Full_Time)
-		((Working_Hour=8))
-		;;
-	$Is_Part_Time)
-		((Working_Hour=4))
-		;;
-	$Is_Absent)
-		((Daily_Wages=0))
-		;;
-esac
-}
-while [[ $Total_Working_Days -le 20 && $Total_Working_Hours -le 100 ]]
-do
-	((Total_Working_Days++))
-		getWorking_Hours $((RANDOM%3)) 
-		Total_Working_Hours=$(($Total_Working_Hours+$Working_Hour))
-done
-Salary=$(($Total_Working_Hours*$Wage_Per_Hour))
-echo  "Total Working Hours : "$Total_Working_Hours
-echo  "Total Monthly Salary : "$Salary
+WAGE_PER_HOUR=20
+DAY_PER_MONTH=20
+TOTAL_WORKING_HOURS=100
+countWorkingDay=0
+getHours=0
+dailyWage=0
 
+function getWorkingHours() {
+	case $(( RANDOM%2 )) in
+		1)
+			employeeHours=8
+			;;
+		0)
+			employeeHours=4
+			;;
+	esac
+	echo $employeeHours
+}
+
+while [[ $getHours -le $TOTAL_WORKING_HOURS && $countWorkingDay -ne $DAY_PER_MONTH ]]
+do
+	readNumber=$(( RANDOM%2 ))
+	if [ $readNumber -eq 1 ]
+	then
+		countWorkingDay=$(( countWorkingDay+1 ))
+		getHours=$(( getHours+"$( getWorkingHours )" ))
+		dailyWage=$getHours
+	else
+		dailyWage=$(( dailyWage+0 ))
+	fi
+done
+echo "Employee Wage : " $(( dailyWage*WAGE_PER_HOUR ))
 
